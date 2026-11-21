@@ -1,0 +1,476 @@
+openapi: 3.0.3
+info:
+  title: Social Media API
+  version: 1.0.0
+paths:
+  /api/offer-friendships/create:
+    post:
+      summary: Создать предложение дружбы
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - fromUserId
+                - toUserId
+              properties:
+                fromUserId:
+                  type: integer
+                  format: int64
+                  example: 1
+                toUserId:
+                  type: integer
+                  format: int64
+                  example: 2
+      responses:
+        '201':
+          description: Предложение дружбы создано
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                  - fromUserId
+                  - toUserId
+                  - status
+                  - createdAt
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                    example: 10
+                  fromUserId:
+                    type: integer
+                    format: int64
+                    example: 1
+                  toUserId:
+                    type: integer
+                    format: int64
+                    example: 2
+                  status:
+                    type: string
+                    enum:
+                      - PENDING
+                      - ACCEPTED
+                      - REJECTED
+                    example: PENDING
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: '2026-09-22T10:15:00Z'
+        '204':
+          description: Предложение уже создано или дружба уже существует
+        '400':
+          description: Некорректные входные данные
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: string
+                    example: INVALID_INPUT_DATA
+                  message:
+                    type: string
+                    example: Некорректные входные данные
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: string
+                    example: USER_NOT_FOUND
+                  message:
+                    type: string
+                    example: Пользователь с указанным ID не найден
+        '409':
+          description: Предложение дружбы уже отклонено
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: string
+                    example: OFFER_FRIENDSHIP_ALREADY_REJECTED
+                  message:
+                    type: string
+                    example: Отклонённое предложение дружбы нельзя создать повторно
+  /api/offer-friendships/accept:
+    post:
+      summary: Принять предложение дружбы
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - fromUserId
+                - toUserId
+              properties:
+                fromUserId:
+                  type: integer
+                  format: int64
+                  example: 1
+                toUserId:
+                  type: integer
+                  format: int64
+                  example: 2
+      responses:
+        '200':
+          description: Предложение дружбы принято
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                  - fromUserId
+                  - toUserId
+                  - status
+                  - createdAt
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                    example: 10
+                  fromUserId:
+                    type: integer
+                    format: int64
+                    example: 1
+                  toUserId:
+                    type: integer
+                    format: int64
+                    example: 2
+                  status:
+                    type: string
+                    enum:
+                      - PENDING
+                      - ACCEPTED
+                      - REJECTED
+                    example: ACCEPTED
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: '2026-09-22T10:15:00Z'
+        '204':
+          description: Предложение уже принято
+        '400':
+          description: Некорректные входные данные
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: string
+                    example: INVALID_INPUT_DATA
+                  message:
+                    type: string
+                    example: Некорректные входные данные
+        '404':
+          description: Пользователь или заявка не найдены
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: string
+                    example: USER_NOT_FOUND
+                  message:
+                    type: string
+                    example: Пользователь или заявка с указанным ID не найден
+        '409':
+          description: Предложение дружбы уже отклонено
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: string
+                    example: OFFER_FRIENDSHIP_ALREADY_REJECTED
+                  message:
+                    type: string
+                    example: Отклонённое предложение дружбы нельзя принять
+  /api/offer-friendships/reject:
+    post:
+      summary: Отклонить предложение дружбы
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - fromUserId
+                - toUserId
+              properties:
+                fromUserId:
+                  type: integer
+                  format: int64
+                  example: 1
+                toUserId:
+                  type: integer
+                  format: int64
+                  example: 2
+      responses:
+        '200':
+          description: Предложение дружбы отклонено
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                  - fromUserId
+                  - toUserId
+                  - status
+                  - createdAt
+                properties:
+                  id:
+                    type: integer
+                    format: int64
+                    example: 10
+                  fromUserId:
+                    type: integer
+                    format: int64
+                    example: 1
+                  toUserId:
+                    type: integer
+                    format: int64
+                    example: 2
+                  status:
+                    type: string
+                    enum:
+                      - PENDING
+                      - ACCEPTED
+                      - REJECTED
+                    example: REJECTED
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: '2026-09-22T10:15:00Z'
+        '204':
+          description: Предложение уже отклонено
+        '400':
+          description: Некорректные входные данные
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: string
+                    example: INVALID_INPUT_DATA
+                  message:
+                    type: string
+                    example: Некорректные входные данные
+        '404':
+          description: Пользователь или заявка не найдены
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: string
+                    example: USER_OR_OFFER_NOT_FOUND
+                  message:
+                    type: string
+                    example: Предложения дружбы между указанными пользоватлями не найдено
+        '409':
+          description: Предложение дружбы уже принято
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - code
+                  - message
+                properties:
+                  code:
+                    type: string
+                    example: OFFER_FRIENDSHIP_ALREADY_ACCEPTED
+                  message:
+                    type: string
+                    example: Принятое предложение нельзя отклонить
+  /api/offer-friendships/incoming:
+    get:
+      summary: Получить список входящих предложений в друзья
+      responses:
+        '200':
+          description: получен список входящих предложений дружбы
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - id
+                    - fromUserId
+                    - toUserId
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+                      description: ID предложения дружбы
+                      example: 10
+                    fromUserId:
+                      type: integer
+                      format: int64
+                      description: ID отправителя предложения дружбы
+                      example: 1
+                    toUserId:
+                      type: integer
+                      format: int64
+                      description: ID получателя предложения дружбы
+                      example: 2
+  /api/offer-friendships/outgoing:
+    get:
+      summary: Получить список исходящих предложений дружбы
+      responses:
+        '200':
+          description: получен список  исходящих предложений дружбы
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - id
+                    - fromUserId
+                    - toUserId
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+                      description: ID предложения дружбы
+                      example: 10
+                    fromUserId:
+                      type: integer
+                      format: int64
+                      description: ID отправителя предложения дружбы
+                      example: 1
+                    toUserId:
+                      type: integer
+                      format: int64
+                      description: ID получателя предложения дружбы
+                      example: 2
+  /api/friendships:
+    get:
+      summary: Получить список друзей
+      responses:
+        '200':
+          description: получен список друзей
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - id
+                    - firstUserId
+                    - secondUserId
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+                      description: ID дружбы
+                      example: 10
+                    firstUserId:
+                      type: integer
+                      format: int64
+                      description: ID первого участника
+                      example: 1
+                    secondUserId:
+                      type: integer
+                      format: int64
+                      description: ID второго участника
+                      example: 2
+  /api/subscribes/followers:
+    get:
+      summary: Получить список подписчиков
+      responses:
+        '200':
+          description: Список пользователей, подписанных на текущего пользователя
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - id
+                    - name
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+                      description: ID пользователя
+                      example: 2
+                    name:
+                      type: string
+                      description: Имя пользователя
+                      example: Анна
+  /api/subscribes:
+    get:
+      summary: Получить список подписок
+      responses:
+        '200':
+          description: Список пользователей, на которых подписан текущий пользователь
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - id
+                    - name
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+                      description: ID пользователя
+                      example: 2
+                    name:
+                      type: string
+                      description: Имя пользователя
+                      example: Анна
+components: {}

@@ -1,0 +1,104 @@
+post:
+  summary: Отклонить предложение дружбы
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - fromUserId
+            - toUserId
+          properties:
+            fromUserId:
+              type: integer
+              format: int64
+              example: 1
+            toUserId:
+              type: integer
+              format: int64
+              example: 2
+  responses:
+    '200':
+      description: Предложение дружбы отклонено
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - id
+              - fromUserId
+              - toUserId
+              - status
+              - createdAt
+            properties:
+              id:
+                type: integer
+                format: int64
+                example: 10
+              fromUserId:
+                type: integer
+                format: int64
+                example: 1
+              toUserId:
+                type: integer
+                format: int64
+                example: 2
+              status:
+                type: string
+                enum: [ PENDING, ACCEPTED, REJECTED ]
+                example: REJECTED
+              createdAt:
+                type: string
+                format: date-time
+                example: '2026-09-22T10:15:00Z'
+    '204':
+      description: Предложение уже отклонено
+    '400':
+      description: Некорректные входные данные
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: string
+                example: INVALID_INPUT_DATA
+              message:
+                type: string
+                example: Некорректные входные данные
+    '404':
+      description: Пользователь или заявка не найдены
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: string
+                example: USER_OR_OFFER_NOT_FOUND
+              message:
+                type: string
+                example: Предложения дружбы между указанными пользоватлями не найдено
+    '409':
+      description: Предложение дружбы уже принято
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                type: string
+                example: OFFER_FRIENDSHIP_ALREADY_ACCEPTED
+              message:
+                type: string
+                example: Принятое предложение нельзя отклонить

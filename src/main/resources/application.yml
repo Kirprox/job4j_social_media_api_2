@@ -8,3 +8,7 @@ spring:
     password: ${DB_PASSWORD:password}
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.sql
+
+springdoc:
+  swagger-ui:
+    url: /openapi-bundled.yaml

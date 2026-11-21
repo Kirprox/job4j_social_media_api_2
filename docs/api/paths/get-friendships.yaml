@@ -1,0 +1,31 @@
+get:
+  summary: Получить список друзей
+  responses:
+    '200':
+      description: получен список друзей
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              required:
+                - id
+                - firstUserId
+                - secondUserId
+              properties:
+                id:
+                  type: integer
+                  format: int64
+                  description: ID дружбы
+                  example: 10
+                firstUserId:
+                  type: integer
+                  format: int64
+                  description: ID первого участника
+                  example: 1
+                secondUserId:
+                  type: integer
+                  format: int64
+                  description: ID второго участника
+                  example: 2

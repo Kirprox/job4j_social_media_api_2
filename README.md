@@ -89,4 +89,6 @@ docker compose up -d
 docker compose down
 ```
 
+## Ссылка на контракт API [API-контракт](docs/api/openapi.yaml)
+
 
