@@ -8,7 +8,6 @@ public class SocialMediaApiApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SocialMediaApiApplication.class, args);
-        System.out.println("http://localhost:8080/api/ping");
     }
 
 }
