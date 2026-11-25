@@ -7,7 +7,7 @@ spring:
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:password}
   liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.sql
+    change-log: classpath:db/changelog/db.changelog-master.yaml
 
 springdoc:
   swagger-ui:
