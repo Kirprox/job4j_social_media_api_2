@@ -1,0 +1,25 @@
+@startuml
+title Отклонение заявки в друзья
+
+participant User
+participant Controller
+participant Service
+participant Repository
+participant Database
+
+User -> Controller: Отклонить заявку
+Controller -> Service: rejectFriendRequest(id)
+Service -> Repository: rejectIfPending(id)
+Repository -> Database: UPDATE offer_friendships\nSET status = 'REJECTED'\nWHERE id = :id AND status = 'PENDING'
+Database --> Repository: Количество изменённых строк
+Repository --> Service: Количество изменённых строк
+
+alt Изменена 1 строка
+    Service --> Controller: Заявка отклонена
+    Controller --> User: Заявка отклонена
+else Изменено 0 строк
+    Service --> Controller: Переход статуса не выполнен
+    Controller --> User: Статус заявки не изменён
+end
+
+@enduml

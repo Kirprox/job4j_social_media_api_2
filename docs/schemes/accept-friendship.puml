@@ -1,0 +1,25 @@
+@startuml
+title Принятие заявки в друзья
+
+participant User
+participant Controller
+participant Service
+participant Repository
+participant Database
+
+User -> Controller: Принять заявку
+Controller -> Service: acceptFriendRequest(id)
+Service -> Repository: acceptIfPending(id)
+Repository -> Database: UPDATE offer_friendships\nSET status = 'ACCEPTED'\nWHERE id = :id AND status = 'PENDING'
+Database --> Repository: Количество изменённых строк
+Repository --> Service: Количество изменённых строк
+
+alt Изменена 1 строка
+    Service --> Controller: Заявка принята
+    Controller --> User: Заявка принята
+else Изменено 0 строк
+    Service --> Controller: Переход статуса не выполнен
+    Controller --> User: Статус заявки не изменён
+end
+
+@enduml
